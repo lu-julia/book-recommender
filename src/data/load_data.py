@@ -1,5 +1,9 @@
-import s3fs
+"""
+This module loads data from an object storage system (S3) and processes it into DataFrames.
+"""
+
 import os
+import s3fs
 from dotenv import load_dotenv
 import pandas as pd
 
@@ -12,7 +16,7 @@ fs = s3fs.S3FileSystem(
     token=os.environ["AWS_SESSION_TOKEN"])
 
 
-def read_csv_from_s3(file_name: str, **kwargs):
+def read_csv_from_s3(file_name: str, **kwargs) -> pd.DataFrame:
     """
     Reads a CSV file from an object storage system.
     """
@@ -21,7 +25,7 @@ def read_csv_from_s3(file_name: str, **kwargs):
     return df
 
 
-def load_book_data():
+def load_book_data() -> pd.DataFrame:
     """
     Reads book data from S3 and returns the processed DataFrame.
     """
@@ -35,7 +39,7 @@ def load_book_data():
     return books
 
 
-def load_rating_data():
+def load_rating_data() -> pd.DataFrame:
     """
     Reads rating data from S3 and returns it as a DataFrame.
     """
@@ -43,7 +47,7 @@ def load_rating_data():
     return ratings
 
 
-def load_user_data():
+def load_user_data() -> pd.DataFrame:
     """
     Reads user data from S3 and returns it as a DataFrame.
     """
@@ -51,7 +55,7 @@ def load_user_data():
     return users
 
 
-def load_books_with_ratings():
+def load_books_with_ratings() -> pd.DataFrame:
     """
     Loads books and ratings, merges them, and returns a DataFrame with book statistics.
     """
@@ -61,6 +65,7 @@ def load_books_with_ratings():
     book_stats = ratings.groupby('ISBN').agg({
         'Book-Rating': ['count', 'mean']
     }).reset_index()
-    book_stats.columns = ['ISBN', 'num_ratings', 'avg_rating']    
-    df = pd.merge(books, book_stats, on='ISBN', how="left").fillna(value={"num_ratings": 0, "avg_rating": 0})
+    book_stats.columns = ['ISBN', 'num_ratings', 'avg_rating']
+    df = pd.merge(books, book_stats, on='ISBN', how="left").fillna(value={"num_ratings": 0,
+                                                                          "avg_rating": 0})
     return df
