@@ -1,8 +1,15 @@
+"""
+Preprocessing functions for cleaning the books and ratings datasets.
+"""
+
 import pandas as pd
 import numpy as np
 
 
 def process_books(books: pd.DataFrame) -> pd.DataFrame:
+    """
+    Function to process the books DataFrame.
+    """
     books = books.drop(columns=["Image-URL-S", "Image-URL-M"])
     # Rename columns
     books.rename(columns={"Book-Title": "title",
@@ -46,6 +53,9 @@ def filter_ratings(ratings: pd.DataFrame, min_users: int = 50, min_books:int = 5
 
 
 def process_ratings(ratings: pd.DataFrame) -> pd.DataFrame:
+    """
+    Function to process the ratings DataFrame.
+    """
     ratings.rename(columns={"User-ID": "user_id",
                             "Book-Rating": "rating"}, inplace=True)
     ratings = ratings[ratings["rating"] != 0]
@@ -55,6 +65,9 @@ def process_ratings(ratings: pd.DataFrame) -> pd.DataFrame:
 
 
 def merge_books_ratings(books: pd.DataFrame, ratings: pd.DataFrame) -> pd.DataFrame:
+    """
+    Function to merge the books and ratings DataFrames and add book statistics columns.
+    """
     book_stats = ratings.groupby('ISBN').agg({
         'rating': ['count', 'mean']
     }).reset_index()
