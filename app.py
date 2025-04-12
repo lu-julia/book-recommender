@@ -7,17 +7,17 @@ from src.app_utils.session import init_session_state
 
 
 st.set_page_config(
-        page_title="Book Recommendation App",
+        page_title="Your Next Read",
         page_icon="📚",
         layout="wide",
     )
 
 st.markdown(
     """
-    <h1 style='text-align: center; color: black;'>
-    📚 Book Recommendation App
+    <h1 style='text-align: center; color: #2E4053; font-family: "Georgia", serif; font-size: 3em;'>
+        Your Next Read 📚
     </h1>
-    """, 
+    """,
     unsafe_allow_html=True
 )
 

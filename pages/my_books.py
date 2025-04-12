@@ -10,7 +10,12 @@ def show():
     col1, col2, col3 = st.columns(3)
     with col2:
         book_titles = st.session_state.df_books['title'].dropna().unique()
-        option = st.selectbox("Add a book", [''] + book_titles)
+        option = st.selectbox(
+            label="Add a book", 
+            options=book_titles, 
+            index=None, 
+            placeholder="Select a book"
+        )
 
     # Option Selectbox
     if option and get_book_id(st.session_state.df_books, option) not in st.session_state.df_user['ISBN'].tolist():
@@ -38,7 +43,11 @@ def show():
             st.session_state.df_user=add_rating(st.session_state.df_user, row, rating)
 
     if st.button("Save books"):
-        st.session_state.df_ratings = update_books(st.session_state.df_user, st.session_state.df_ratings, st.session_state['user_id'])
+        st.session_state.df_ratings = update_books(
+            df_user=st.session_state.df_user, 
+            df_ratings=st.session_state.df_ratings, 
+            user_id=st.session_state['user_id']
+        )
         st.session_state.saved = True
         # st.session_state.df_user.to_csv('user_books.csv', index=False)
         # st.session_state.df_ratings.to_csv('ratings_app.csv', index=False)
