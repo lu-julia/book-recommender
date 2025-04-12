@@ -6,7 +6,6 @@ import os
 import s3fs
 from dotenv import load_dotenv
 import pandas as pd
-import streamlit as st
 
 from src.data.preprocessing import process_books, process_ratings, merge_books_ratings
 
@@ -19,7 +18,6 @@ fs = s3fs.S3FileSystem(
 )
 
 
-@st.cache_data
 def read_csv_from_s3(file_name: str, **kwargs) -> pd.DataFrame:
     """
     Reads a CSV file from an object storage system.

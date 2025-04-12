@@ -24,7 +24,12 @@ def process_books(books: pd.DataFrame) -> pd.DataFrame:
     books = books.dropna().reset_index(drop=True)
     # Convert year to string
     books["year"] = books["year"].astype(int).astype(str)
-    return books
+    # Clean text columns
+    books['title'] = books['title'].str.strip().str.title()
+    books['author'] = books['author'].str.strip().str.title()
+    books['publisher'] = books['publisher'].fillna("").str.strip().str.title()
+
+    return books.reset_index(drop=True)
 
 
 def filter_ratings(ratings: pd.DataFrame, min_users: int = 50, min_books:int = 5) -> pd.DataFrame:
