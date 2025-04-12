@@ -12,6 +12,8 @@ st.set_page_config(
         layout="wide",
     )
 
+init_session_state()
+
 st.markdown(
     """
     <h1 style='text-align: center; color: #2E4053; font-family: "Georgia", serif; font-size: 3em;'>
@@ -27,8 +29,6 @@ PAGES = {
     #"Search": search
 }
 
-
-init_session_state()
 
 selected = option_menu(
     menu_title=None, 

@@ -18,7 +18,7 @@ def show():
                     <h4 style='color: #2C3E50;'>🛠️ How to use the app:</h4>
                     <ol style='color: #566573; font-size: 15px;'>
                         <li>Go to <strong>📚 My Books</strong> and rate a few books you've read.</li>
-                        <li>Hit the <strong>Save books</strong> button to update your preferences.</li>
+                        <li>Hit the <strong>💾 Save books</strong> button to update your preferences.</li>
                         <li>Return to <strong>🏠 Home</strong> to get your personalized recommendations.</li>
                         <li>Explore more using the <strong>🔍 Search</strong> tab to search books by title or author.</li>
                     </ol>
@@ -31,16 +31,15 @@ def show():
         if st.session_state.saved == False:
             st.info("👉 Remember to hit the **Save books** button !")
         else:
-            st.markdown("### You might also like...")
+            st.subheader("🎯 You might also like...")
             recs = cf_recommendation(st.session_state.df_ratings, st.session_state.df_books, st.session_state['user_id'], n_reco=8, n_factors=100)
             recs = recs[:6]
             cols = cycle(st.columns(6))
             for index in range(len(recs)):
                 row = recs.iloc[index]
                 col = next(cols)
-                # Image
-                img_markdown = f"<img src='{row['image_url']}' width={200} height={300}></a><figcaption>{row['title']}</figcaption>"
-                col.markdown(img_markdown, unsafe_allow_html=True)
+                with col:
+                    st.markdown(f"<img src='{row['image_url']}' width=200 height=300><br><b>{row['title']}</b>", unsafe_allow_html=True)
     
             st.divider()
             st.subheader("📈 Popular Books and More")
