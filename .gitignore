@@ -173,5 +173,5 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-# Data : on garde les données dans le Github car elles ne sont pas massives ni confidentielles
-# data/
+# Data files
+*.csv
