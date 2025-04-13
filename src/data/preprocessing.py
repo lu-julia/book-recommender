@@ -2,8 +2,17 @@
 Preprocessing functions for cleaning the books and ratings datasets.
 """
 
+import re
 import pandas as pd
 import numpy as np
+
+
+def remove_punctuation(text: str) -> str:
+    """
+    Function to remove specific punctuation from a string.
+    """
+    # Removes ", . and \
+    return re.sub(r'[\".\\]', '', text)
 
 
 def process_books(books: pd.DataFrame) -> pd.DataFrame:
@@ -24,15 +33,24 @@ def process_books(books: pd.DataFrame) -> pd.DataFrame:
     books = books.dropna().reset_index(drop=True)
     # Convert year to string
     books["year"] = books["year"].astype(int).astype(str)
-    # Clean text columns
-    books['title'] = books['title'].str.strip().str.title()
-    books['author'] = books['author'].str.strip().str.title()
+    # Remove punctuation and standardize casing
+    books['title'] = books['title'].apply(remove_punctuation).str.strip().str.title()
+    books['author'] = books['author'].apply(remove_punctuation).str.strip().str.title()
     books['publisher'] = books['publisher'].fillna("").str.strip().str.title()
-
     return books.reset_index(drop=True)
 
 
-def filter_ratings(ratings: pd.DataFrame, min_users: int = 50, min_books:int = 5) -> pd.DataFrame:
+def process_ratings(ratings: pd.DataFrame) -> pd.DataFrame:
+    """
+    Function to process the ratings DataFrame.
+    """
+    ratings.rename(columns={"User-ID": "user_id",
+                            "Book-Rating": "rating"}, inplace=True)
+    ratings = ratings[ratings["rating"] != 0]
+    return ratings
+
+
+def filter_ratings(ratings: pd.DataFrame, min_users: int = 20, min_books:int = 5) -> pd.DataFrame:
     """
     Filter the ratings DataFrame to include only:
     - the users who have rated at least 'min_users' books
@@ -57,18 +75,6 @@ def filter_ratings(ratings: pd.DataFrame, min_users: int = 50, min_books:int = 5
     return ratings.reset_index(drop=True)
 
 
-def process_ratings(ratings: pd.DataFrame) -> pd.DataFrame:
-    """
-    Function to process the ratings DataFrame.
-    """
-    ratings.rename(columns={"User-ID": "user_id",
-                            "Book-Rating": "rating"}, inplace=True)
-    ratings = ratings[ratings["rating"] != 0]
-    ratings = filter_ratings(ratings)
-    ratings["rating"] = ratings["rating"].astype(int)
-    return ratings
-
-
 def merge_books_ratings(books: pd.DataFrame, ratings: pd.DataFrame) -> pd.DataFrame:
     """
     Function to merge the books and ratings DataFrames and add book statistics columns.
@@ -80,4 +86,7 @@ def merge_books_ratings(books: pd.DataFrame, ratings: pd.DataFrame) -> pd.DataFr
     books_ratings = pd.merge(books, book_stats, on='ISBN', how='inner')
     books_ratings["num_ratings"] = books_ratings["num_ratings"].astype(int)
     books_ratings = books_ratings.round({"avg_rating": 2})
-    return books_ratings
+    # Drop duplicate books with the same title and author
+    books_ratings = books_ratings.sort_values('num_ratings', ascending=False)
+    books_ratings = books_ratings.drop_duplicates(subset=['title', 'author'], keep='first')
+    return books_ratings.reset_index(drop=True)

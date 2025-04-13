@@ -7,9 +7,17 @@ import s3fs
 from dotenv import load_dotenv
 import pandas as pd
 
-from src.data.preprocessing import process_books, process_ratings, merge_books_ratings
+from src.data.preprocessing import (
+    process_books,
+    process_ratings,
+    filter_ratings,
+    merge_books_ratings,
+)
 
+
+# Load environment variables from .env file
 load_dotenv()
+# Initialize S3 file system
 fs = s3fs.S3FileSystem(
     client_kwargs={"endpoint_url": "https://minio.lab.sspcloud.fr"},
     key=os.environ["AWS_ACCESS_KEY_ID"],
@@ -36,12 +44,14 @@ def load_book_data() -> pd.DataFrame:
     return books
 
 
-def load_rating_data() -> pd.DataFrame:
+def load_rating_data(filtered: bool = True) -> pd.DataFrame:
     """
     Reads rating data from S3 and returns the processed DataFrame.
     """
     ratings = read_csv_from_s3("Ratings.csv")
     ratings = process_ratings(ratings)
+    if filtered:
+        ratings = filter_ratings(ratings)
     return ratings
 
 
