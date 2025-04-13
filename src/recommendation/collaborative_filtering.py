@@ -1,3 +1,7 @@
+"""
+Module for book recommendation based on collaborative filtering using Singular Value Decomposition.
+"""
+
 import pandas as pd
 import numpy as np
 from scipy.sparse import csr_matrix
@@ -24,9 +28,9 @@ def create_user_item_matrix(ratings: pd.DataFrame):
 
 
 def compute_svd(
-        matrix: csr_matrix, 
-        user_mapper: dict, 
-        book_mapper: dict, 
+        matrix: csr_matrix,
+        user_mapper: dict,
+        book_mapper: dict,
         n_factors: int
     ) -> pd.DataFrame:
     """
@@ -40,19 +44,19 @@ def compute_svd(
 
     Returns:
         pd.DataFrame : Predicted ratings for all users in the original dataset.     
-    """   
+    """
     U, sigma, V_t = svds(matrix, k=n_factors)
     sigma = np.diag(sigma)
     pred_ratings = np.dot((U @ sigma), V_t)
-    preds_df = pd.DataFrame(pred_ratings, columns=book_mapper.keys(), index=user_mapper.keys())    
+    preds_df = pd.DataFrame(pred_ratings, columns=book_mapper.keys(), index=user_mapper.keys())
     return preds_df
 
 
 def cf_recommendation(
-        ratings: pd.DataFrame, 
-        books: pd.DataFrame, 
-        user_id: int, 
-        n_reco: int, 
+        ratings: pd.DataFrame,
+        books: pd.DataFrame,
+        user_id: int,
+        n_reco: int,
         n_factors: int = 50
     ) -> pd.DataFrame:
     """
@@ -68,6 +72,8 @@ def cf_recommendation(
     Returns:
         pd.DataFrame : DataFrame containing the recommended books for the user.
     """
+    # Filter ratings to include only the books that are in the books DataFrame
+    ratings = ratings[ratings["ISBN"].isin(books["ISBN"])]
     # Create user-book matrix
     matrix, user_mapper, book_mapper = create_user_item_matrix(ratings)
     # Compute SVD
