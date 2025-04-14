@@ -112,7 +112,7 @@ def show():
             st.divider()
 
             ### Popularity based recommendations
-            st.subheader("📈 Popular Books")
+            st.subheader("📈 Most popular books")
             if "popular_books" not in st.session_state:
                 full_popular_df = get_popular_books(st.session_state.df_books)
                 st.session_state.popular_books = full_popular_df.sample(6) if len(full_popular_df) > 6 else full_popular_df

@@ -76,11 +76,23 @@ def get_book_details(df_books: pd.DataFrame, isbn: str) -> dict:
     return {
         'title': book['title'],
         'author': book['author'],
+        'year': book['year'],
         'publisher': book['publisher'],
         'image_url': book['image_url'],
         'avg_rating': book['avg_rating'],
         'num_ratings': book['num_ratings'],
     }
+
+
+def get_star_rating(avg_rating: float) -> str:
+    """
+    Convert average rating to star format.
+    """
+    if avg_rating is None:
+        return "No rating"
+    stars = "★" * int(round(avg_rating / 2))
+    stars = stars.ljust(5, "☆")
+    return f"{stars}  {avg_rating:.2f} / 10"
 
 
 def display_books(df: pd.DataFrame, key_prefix: str):
