@@ -19,4 +19,8 @@ def init_session_state():
         st.session_state.saved = False
     if 'selected_book' not in st.session_state:
         st.session_state.selected_book = None
+    if "previous_page" not in st.session_state:
+        st.session_state.previous_page = "home"
+    if "current_page" not in st.session_state:
+        st.session_state.current_page = "home"
     #st.write(st.session_state)

@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 
-from pages import home, my_books
+from pages import home, my_books, search
 from src.app_utils.session import init_session_state
 
 
@@ -14,6 +14,7 @@ st.set_page_config(
 
 init_session_state()
 
+
 st.markdown(
     """
     <h1 style='text-align: center; color: #2E4053; font-family: "Georgia", serif; font-size: 3em;'>
@@ -23,11 +24,12 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-PAGES = {
-    "Home": home,
-    "My Books": my_books,
-    #"Search": search
-}
+
+# Default menu page
+if st.session_state.current_page == "search":
+    default = 2
+else:
+    default = 0
 
 
 selected = option_menu(
@@ -36,9 +38,14 @@ selected = option_menu(
     icons=['house', "book", "search"], 
     orientation="horizontal",
     menu_icon="cast", 
-    default_index=0,
+    default_index=default,
 )
 
 # Run selected page
+PAGES = {
+    "Home": home,
+    "My Books": my_books,
+    "Search": search,
+}
 page = PAGES[selected]
 page.show()

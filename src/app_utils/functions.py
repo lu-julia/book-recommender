@@ -107,5 +107,6 @@ def display_books(df: pd.DataFrame, key_prefix: str):
             st.markdown(f"<img src='{row['image_url']}' width=200 height=300>", unsafe_allow_html=True)
             # Clickable button styled as text
             if col.button(f"{row['title']}", key=f"{key_prefix}_{row['ISBN']}", type="primary"):
-                st.session_state.selected_book = row['ISBN']
+                st.session_state['selected_book'] = row['ISBN']
+                st.session_state['previous_page'] = 'home'
                 st.switch_page("pages/book_info.py")

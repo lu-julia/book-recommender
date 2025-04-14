@@ -1,3 +1,7 @@
+"""
+Book information page.
+"""
+
 import streamlit as st
 
 from src.app_utils.functions import get_book_details, get_star_rating
@@ -32,9 +36,16 @@ def show():
 
     st.markdown("")
 
+    # Return to previous page
+    if st.session_state.get("previous_page") == "search":
+        if st.button("🔙 Back to Search"):
+            st.session_state["current_page"] = "search"
+            st.switch_page("app.py")
 
-    if st.button("🔙 Back to Home"):
-        st.switch_page("app.py")
+    else:
+        if st.button("🔙 Back to Home"):
+            st.session_state["current_page"] = "home"
+            st.switch_page("app.py")
 
 
 
