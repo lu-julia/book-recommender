@@ -2,9 +2,9 @@
 Page to add books to the user's collection and rate them.
 """
 
+from itertools import cycle
 import streamlit as st
 import pandas as pd
-from itertools import cycle
 
 from src.app_utils.functions import (
     get_book_id,
@@ -67,3 +67,4 @@ def show():
         )
         st.session_state.saved = True
         st.success("Books saved!")
+        st.session_state["ratings_updated"] = True
