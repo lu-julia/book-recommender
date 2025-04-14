@@ -8,17 +8,11 @@ This project aims to build a book recommendation system that provides personaliz
 ## Dataset
 The dataset used in this project is the [Kaggle Book Recommendation Dataset](https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset/data).
 
-The data is stored in SSP Cloud's S3 storage bucket.
+It consists of 2 main files :
+* `Books.csv` : Contains information about the books, including the title, author, publisher, and year of publication.
+* `Ratings.csv` : Contains user ratings for the books, including the user id, book id, and rating.
 
-To access the data, you need to create a `.env` file with your authentification keys. 
-The file should contain the following variables :
-```
-AWS_ACCESS_KEY_ID=your_access_key_id
-AWS_SECRET_ACCESS_KEY=your_secret_access_key
-AWS_SESSION_TOKEN=your_session_token
-AWS_DEFAULT_REGION=your_region
-```
-You can find your authentification keys here : https://datalab.sspcloud.fr/account/storage 
+The data is stored in SSP Cloud's S3 storage bucket.
 
 
 <!-- ## Recommendation systems
@@ -68,12 +62,23 @@ git clone https://github.com/lu-julia/book-recommendation.git
 pip install -r requirements.txt 
 ```
 
-3. Launch the app
+3. Set up your environment variables to access the S3 bucket.
+
+Create a `.env` file in the root directory of the project with your [authentification keys](https://datalab.sspcloud.fr/account/storage).
+The file should contain the following variables :
+```
+AWS_ACCESS_KEY_ID=your_access_key_id
+AWS_SECRET_ACCESS_KEY=your_secret_access_key
+AWS_SESSION_TOKEN=your_session_token
+AWS_DEFAULT_REGION=your_region
+```
+
+4. Launch the app
 ```
 streamlit run app.py
 ```
 
-4. Open your web browser and go to `http://localhost:8501` to access the app.
+5. Open your web browser and go to `http://localhost:8501` to access the app.
 
 
 ## Contributors
