@@ -25,4 +25,19 @@ def init_session_state():
         st.session_state.previous_page = "home"
     if "current_page" not in st.session_state:
         st.session_state.current_page = "home"
-    # st.write(st.session_state)
+
+    # --- Session defaults for filters ---
+    if 'search_query' not in st.session_state:
+        st.session_state.search_query = ""
+    if 'year_from' not in st.session_state:
+        st.session_state.year_from = int(st.session_state.df_books["year"].min())
+    if 'year_to' not in st.session_state:
+        st.session_state.year_to = int(st.session_state.df_books["year"].max())
+    if 'sort_by' not in st.session_state:
+        st.session_state.sort_by = "None"
+    if 'page' not in st.session_state:
+        st.session_state.page = 0
+    if "filters_cleared" not in st.session_state:
+        st.session_state.filters_cleared = False
+
+    st.write(st.session_state)
