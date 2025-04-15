@@ -8,7 +8,7 @@ from src.app_utils.functions import get_book_details, get_star_rating
 
 
 def show():
-    isbn = st.session_state['selected_book']
+    isbn = st.session_state["selected_book"]
     details = get_book_details(st.session_state.df_books, isbn)
 
     st.markdown("## 📘 Book Details")
@@ -30,8 +30,8 @@ def show():
                 <p style="margin: 6px 0;"><strong>ISBN:</strong> {isbn}</p>
             </div>
         </div>
-        """, 
-        unsafe_allow_html=True
+        """,
+        unsafe_allow_html=True,
     )
 
     st.markdown("")
@@ -46,7 +46,6 @@ def show():
         if st.button("🔙 Back to Home"):
             st.session_state["current_page"] = "home"
             st.switch_page("app.py")
-
 
 
 if __name__ == "__main__":
