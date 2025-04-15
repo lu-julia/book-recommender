@@ -29,11 +29,7 @@ st.markdown(
 
 
 # Default menu page
-if st.session_state.current_page == "search":
-    DEFAULT = 2
-else:
-    DEFAULT = 0
-
+DEFAULT = 2 if st.session_state.current_page == "search" else 0
 
 selected = option_menu(
     menu_title=None,

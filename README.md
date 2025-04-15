@@ -30,6 +30,7 @@ Recommendation systems help users discover items, such as movies, books, music, 
 book_recommender/
 ├── notebooks/
 ├── pages/
+│   ├── book_info.py 
 │   ├── home.py                  
 │   ├── my_books.py                
 │   └── search.py             
