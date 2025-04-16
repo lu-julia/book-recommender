@@ -6,6 +6,8 @@ import pandas as pd
 import numpy as np
 from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import svds
+from src.app_utils.logger import log
+
 
 
 def create_user_item_matrix(ratings: pd.DataFrame):
@@ -88,4 +90,5 @@ def cf_recommendation(
     recommendations = user_preds[~user_preds.index.isin(read_books)].head(n_reco)
     # Join with book metadata
     books_reco = books[books["ISBN"].isin(recommendations.index)]
+    log.success("Recommandations générées.")
     return books_reco

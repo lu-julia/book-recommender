@@ -6,6 +6,8 @@ import os
 import s3fs
 from dotenv import load_dotenv
 import pandas as pd
+from src.app_utils.logger import log
+
 
 from src.data.preprocessing import (
     process_books,
@@ -30,6 +32,7 @@ def read_csv_from_s3(file_name: str, **kwargs) -> pd.DataFrame:
     """
     Reads a CSV file from an object storage system.
     """
+    log.info(f"Chargement des données depuis S3")
     with fs.open(f"s3://julialu/diffusion/{file_name}", mode="rb") as file_in:
         df = pd.read_csv(file_in, sep=",", **kwargs)
     return df
@@ -41,6 +44,7 @@ def load_book_data() -> pd.DataFrame:
     """
     books = read_csv_from_s3("Books.csv", dtype={"Year-Of-Publication": str})
     books = process_books(books)
+    log.info("Chargement des données terminé.")
     return books
 
 

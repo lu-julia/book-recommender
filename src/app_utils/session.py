@@ -7,6 +7,8 @@ import streamlit as st
 from src.data.load_data import load_rating_data, load_books_ratings
 from src.app_utils.functions import get_my_books
 
+from src.app_utils.logger import log
+
 
 def init_session_state() -> None:
     """
