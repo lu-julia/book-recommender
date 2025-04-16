@@ -8,6 +8,7 @@ import streamlit as st
 import pandas as pd
 
 from src.app_utils.functions import get_book_id, add_book, add_rating, update_books
+from src.app_utils.logger import logger
 
 
 def show():
@@ -33,10 +34,12 @@ def show():
         # Extract title from label
         selected_title = option.split(" - ")[0]
         isbn = get_book_id(st.session_state.df_books, selected_title)
+        user_id = st.session_state["user_id"]
         if isbn not in st.session_state.df_user["ISBN"].tolist():
             st.session_state.df_user = add_book(
-                st.session_state.df_user, st.session_state["user_id"], isbn
+                st.session_state.df_user, user_id, isbn
             )
+            logger.info(f"Book {isbn} added to user {user_id}'s collection.")
 
     # Show books
     cols = cycle(st.columns(6))
@@ -44,8 +47,7 @@ def show():
         st.session_state.df_user, st.session_state.df_books, on="ISBN", how="left"
     )
 
-    for index in range(len(df_user_book)):
-        row = df_user_book.iloc[index]
+    for index, row in df_user_book.iterrows():
         col = next(cols)
         with col:
             # Book cover and title
@@ -71,6 +73,9 @@ def show():
                 st.session_state.df_user = add_rating(
                     st.session_state.df_user, row, rating
                 )
+                logger.info(
+                    f"Rating for book {row['ISBN']} updated to {rating} for user {row['user_id']}."
+                )
 
     if st.button("💾 Save books"):
         st.session_state.df_ratings = update_books(
@@ -81,3 +86,7 @@ def show():
         st.session_state.saved = True
         st.success("Books saved!")
         st.session_state["ratings_updated"] = True
+        logger.info(
+            f"User {st.session_state['user_id']} saved their books and ratings."
+            f" {len(st.session_state.df_user)} books in the user's collection."
+        )

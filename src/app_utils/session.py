@@ -4,10 +4,9 @@ This module initializes the session state variables used in the app.
 
 import streamlit as st
 
-from src.data.load_data import load_rating_data, load_books_ratings
+from src.data.load_data import load_book_data, load_rating_data
+from src.data.preprocessing import merge_books_ratings
 from src.app_utils.functions import get_my_books
-
-from src.app_utils.logger import log
 
 
 def init_session_state() -> None:
@@ -17,8 +16,10 @@ def init_session_state() -> None:
     if "user_id" not in st.session_state:
         st.session_state["user_id"] = -1
     if "df_books" not in st.session_state and "df_user" not in st.session_state:
-        st.session_state.df_books = load_books_ratings()
-        st.session_state.df_ratings = load_rating_data()
+        books = load_book_data()
+        ratings = load_rating_data()
+        st.session_state.df_books = merge_books_ratings(books, ratings)
+        st.session_state.df_ratings = ratings
         st.session_state.df_user = get_my_books(
             st.session_state.df_ratings, st.session_state["user_id"]
         )

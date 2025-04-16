@@ -6,7 +6,8 @@ import pandas as pd
 import numpy as np
 from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import svds
-from src.app_utils.logger import log
+
+from src.app_utils.logger import logger
 
 
 
@@ -46,13 +47,18 @@ def compute_svd(
     Returns:
         pd.DataFrame : Predicted ratings for all users in the original dataset.
     """
-    U, sigma, V_t = svds(matrix, k=n_factors)
-    sigma = np.diag(sigma)
-    pred_ratings = np.dot((U @ sigma), V_t)
-    preds_df = pd.DataFrame(
-        pred_ratings, columns=book_mapper.keys(), index=user_mapper.keys()
-    )
-    return preds_df
+    try:
+        U, sigma, V_t = svds(matrix, k=n_factors)
+        sigma = np.diag(sigma)
+        pred_ratings = np.dot((U @ sigma), V_t)
+        preds_df = pd.DataFrame(
+            pred_ratings, columns=book_mapper.keys(), index=user_mapper.keys()
+        )
+        logger.info("SVD computed successfully.")
+        return preds_df
+    except Exception as e:
+        logger.error(f"Error computing SVD: {e}")
+        raise
 
 
 def cf_recommendation(
@@ -75,6 +81,7 @@ def cf_recommendation(
     Returns:
         pd.DataFrame : DataFrame containing the recommended books for the user.
     """
+    logger.info(f"Generating recommendations for user {user_id}...")
     # Filter ratings to include only the books that are in the books DataFrame
     ratings = ratings[ratings["ISBN"].isin(books["ISBN"])]
     # Create user-book matrix
@@ -90,5 +97,5 @@ def cf_recommendation(
     recommendations = user_preds[~user_preds.index.isin(read_books)].head(n_reco)
     # Join with book metadata
     books_reco = books[books["ISBN"].isin(recommendations.index)]
-    log.success("Recommandations générées.")
+    logger.success(f"Recommendations for user {user_id} generated successfully.")
     return books_reco
