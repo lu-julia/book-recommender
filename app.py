@@ -17,23 +17,28 @@ st.set_page_config(
 
 init_session_state()
 
-# Logo au centre
-"""
-col1, col2, col3 = st.columns(3) 
-with col2:
-    st.image("images/logo.png", width=300)"""
-
-
+# Reduce whitespace on the top of the page
 st.markdown(
     """
-    <div style="text-align: center;">
-        <img src="images/logo.png" style="width:300px;" />
-    </div>
-    """,
-    unsafe_allow_html=True
+<style>
+.block-container
+{
+    padding-top: 1rem;
+    padding-bottom: 0rem;
+    margin-top: 1rem;
+}
+</style>
+""",
+    unsafe_allow_html=True,
 )
 
+# Logo
+_, col2, _ = st.columns(3)
+with col2:
+    st.image("images/logo.png", width=300, use_container_width=True)
 
+# Add space between logo and menu
+st.markdown("<div style='margin-bottom: 20px;'></div>", unsafe_allow_html=True)
 
 # Default menu page
 DEFAULT = 2 if st.session_state.current_page == "search" else 0
