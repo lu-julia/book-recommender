@@ -15,7 +15,8 @@ st.set_page_config(
     layout="wide",
 )
 
-init_session_state()
+with st.spinner("Loading the datasets... This may take a few seconds."):
+    init_session_state()
 
 # Reduce whitespace on the top of the page
 st.markdown(
@@ -24,7 +25,7 @@ st.markdown(
 .block-container
 {
     padding-top: 1.5rem;
-    padding-bottom: 0rem;
+    padding-bottom: 5rem;
     margin-top: 1rem;
 }
 </style>
