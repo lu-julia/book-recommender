@@ -17,15 +17,22 @@ st.set_page_config(
 
 init_session_state()
 
+# Logo au centre
+"""
+col1, col2, col3 = st.columns(3) 
+with col2:
+    st.image("images/logo.png", width=300)"""
+
 
 st.markdown(
     """
-    <h1 style='text-align: center; color: #2E4053; font-family: "Georgia", serif; font-size: 3em;'>
-        Your Next Read 📚
-    </h1>
+    <div style="text-align: center;">
+        <img src="images/logo.png" style="width:300px;" />
+    </div>
     """,
-    unsafe_allow_html=True,
+    unsafe_allow_html=True
 )
+
 
 
 # Default menu page
