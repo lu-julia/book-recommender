@@ -1,0 +1,21 @@
+#| filename: "deployment/ingress.yaml"
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: book-app-ingress
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - your-next-read.lab.sspcloud.fr
+  rules:
+  - host: your-next-read.lab.sspcloud.fr
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: book-app-service
+            port:
+              number: 80

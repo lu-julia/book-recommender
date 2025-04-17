@@ -1,0 +1,38 @@
+#| filename: "deployment/deployment.yaml"
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: book-app-deployment
+  labels:
+    app: book-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: book-app
+  template:
+    metadata:
+      labels:
+        app: book-app
+    spec:
+      containers:
+      - name: book-app
+        image: lujulia/mise-en-production:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: aws-credentials
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aws-credentials
+              key: AWS_SECRET_ACCESS_KEY
+        - name: AWS_SESSION_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: aws-credentials
+              key: AWS_SESSION_TOKEN
