@@ -10,7 +10,6 @@ from scipy.sparse.linalg import svds
 from src.app_utils.logger import logger
 
 
-
 def create_user_item_matrix(ratings: pd.DataFrame):
     """
     Creates a sparse user-book matrix from a DataFrame of ratings.
@@ -48,6 +47,7 @@ def compute_svd(
         pd.DataFrame : Predicted ratings for all users in the original dataset.
     """
     try:
+        logger.info("Computing SVD...")
         U, sigma, V_t = svds(matrix, k=n_factors)
         sigma = np.diag(sigma)
         pred_ratings = np.dot((U @ sigma), V_t)

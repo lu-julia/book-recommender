@@ -60,88 +60,89 @@ def show():
                         if key in st.session_state:
                             del st.session_state[key]
 
-            ### Colaborative filtering recommendations
-            # Define a key that changes only when new ratings are added
-            cf_key = f"cf_recommendations_user_{st.session_state['user_id']}"
+            # --- Colaborative filtering recommendations ---
+            with st.spinner("Generating recommendations..."):
+                # Define a key that changes only when new ratings are added
+                cf_key = f"cf_recommendations_user_{st.session_state['user_id']}"
 
-            # If not already in session state or user just updated ratings:
-            if cf_key not in st.session_state or st.session_state.get(
-                "ratings_updated", False
-            ):
-                recs_df = cf_recommendation(
-                    st.session_state.df_ratings,
+                # If not already in session state or user just updated ratings:
+                if cf_key not in st.session_state or st.session_state.get(
+                    "ratings_updated", False
+                ):
+                    recs_df = cf_recommendation(
+                        st.session_state.df_ratings,
+                        st.session_state.df_books,
+                        st.session_state["user_id"],
+                        n_reco=10,
+                        n_factors=50,
+                    )
+                    st.session_state[cf_key] = recs_df.sample(6)
+                    st.session_state["ratings_updated"] = False  # Reset flag after updating
+
+                display_books(st.session_state[cf_key], key_prefix="cf")
+
+                # Style override for button to make it look like text
+                st.markdown(
+                    """
+                    <style>
+                    button[kind="primary"] {
+                        background: none!important;
+                        border: none!important;
+                        padding: 0!important;
+                        color: black !important;
+                        text-decoration: none;
+                        cursor: pointer;
+                        font-weight: 700  !important;
+                        text-align: left !important;
+                        display: block;
+                        margin-top: 5px;
+                    }
+                    button[kind="primary"]:hover {
+                        text-decoration: none;
+                        color: #1F618D !important;
+                    }
+                    button[kind="primary"]:focus {
+                        outline: none !important;
+                        box-shadow: none !important;
+                    }
+                    </style>
+                    """,
+                    unsafe_allow_html=True,
+                )
+
+                st.divider()
+
+                # --- Popularity based recommendations ---
+                st.subheader("📈 Most popular books")
+                if "popular_books" not in st.session_state:
+                    full_popular_df = get_popular_books(st.session_state.df_books)
+                    st.session_state.popular_books = (
+                        full_popular_df.sample(6)
+                        if len(full_popular_df) > 6
+                        else full_popular_df
+                    )
+
+                display_books(st.session_state.popular_books, key_prefix="pop")
+
+                st.divider()
+
+                # --- Author-based recommendations ---
+                df_user_book = pd.merge(
+                    st.session_state.df_user,
                     st.session_state.df_books,
-                    st.session_state["user_id"],
-                    n_reco=12,
-                    n_factors=100,
+                    on="ISBN",
+                    how="left",
                 )
-                st.session_state[cf_key] = recs_df.sample(6)
-                st.session_state["ratings_updated"] = False  # Reset flag after updating
+                if "author_books" not in st.session_state:
+                    full_author_df = get_books_from_authors(
+                        df_user_book, st.session_state.df_books
+                    )
+                    st.session_state.author_books = (
+                        full_author_df.sample(6)
+                        if len(full_author_df) > 6
+                        else full_author_df
+                    )
 
-            display_books(st.session_state[cf_key], key_prefix="cf")
-
-            # Style override for button to make it look like text
-            st.markdown(
-                """
-                <style>
-                button[kind="primary"] {
-                    background: none!important;
-                    border: none!important;
-                    padding: 0!important;
-                    color: black !important;
-                    text-decoration: none;
-                    cursor: pointer;
-                    font-weight: 700  !important;
-                    text-align: left !important;
-                    display: block;
-                    margin-top: 5px;
-                }
-                button[kind="primary"]:hover {
-                    text-decoration: none;
-                    color: #1F618D !important;
-                }
-                button[kind="primary"]:focus {
-                    outline: none !important;
-                    box-shadow: none !important;
-                }
-                </style>
-                """,
-                unsafe_allow_html=True,
-            )
-
-            st.divider()
-
-            ### Popularity based recommendations
-            st.subheader("📈 Most popular books")
-            if "popular_books" not in st.session_state:
-                full_popular_df = get_popular_books(st.session_state.df_books)
-                st.session_state.popular_books = (
-                    full_popular_df.sample(6)
-                    if len(full_popular_df) > 6
-                    else full_popular_df
-                )
-
-            display_books(st.session_state.popular_books, key_prefix="pop")
-
-            st.divider()
-
-            ### Author-based recommendations
-            df_user_book = pd.merge(
-                st.session_state.df_user,
-                st.session_state.df_books,
-                on="ISBN",
-                how="left",
-            )
-            if "author_books" not in st.session_state:
-                full_author_df = get_books_from_authors(
-                    df_user_book, st.session_state.df_books
-                )
-                st.session_state.author_books = (
-                    full_author_df.sample(6)
-                    if len(full_author_df) > 6
-                    else full_author_df
-                )
-
-            if not st.session_state.author_books.empty:
-                st.subheader("📚 More books from your favorite authors")
-                display_books(st.session_state.author_books, key_prefix="auth")
+                if not st.session_state.author_books.empty:
+                    st.subheader("📚 More books from your favorite authors")
+                    display_books(st.session_state.author_books, key_prefix="auth")
