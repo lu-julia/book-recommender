@@ -15,7 +15,7 @@ st.set_page_config(
     layout="wide",
 )
 
-with st.spinner("Loading the datasets... This may take a few seconds."):
+with st.spinner("Loading... This may take a few seconds."):
     init_session_state()
 
 # Reduce whitespace on the top of the page
