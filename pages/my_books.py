@@ -61,7 +61,7 @@ def show():
             # Book cover and title
             st.markdown(
                 f"""
-                <img src='{row['image_url']}' width=200 height=300><br><b>{row["title"]}</b>
+                <img src='{row['image_url']}' width=200 height=290><br><b>{row["title"]}</b>
                 """,
                 unsafe_allow_html=True,
             )

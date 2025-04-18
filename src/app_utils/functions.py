@@ -100,7 +100,7 @@ def display_books(df: pd.DataFrame, key_prefix: str):
         with col:
             # Display image
             st.markdown(
-                f"<img src='{row['image_url']}' width=200 height=300>",
+                f"<img src='{row['image_url']}' width=200 height=290>",
                 unsafe_allow_html=True,
             )
             # Clickable button styled as text

@@ -59,7 +59,7 @@ def show():
                         st.session_state.df_books,
                         st.session_state["user_id"],
                         n_reco=10,
-                        n_factors=50,
+                        n_factors=30,
                     )
                     st.session_state[cf_key] = recs_df.sample(6)
                     st.session_state["ratings_updated"] = False  # Reset flag after updating
