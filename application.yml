@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ensae-mlops
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/lu-julia/book-recommender.git
+    targetRevision: main
+    path: deployment
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: user-julialu
+  syncPolicy:
+    automated:
+      selfHeal: true
