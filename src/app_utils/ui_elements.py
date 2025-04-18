@@ -12,22 +12,31 @@ def render_welcome_instructions() -> None:
     st.markdown(
         """
         <div style='display: flex; justify-content: center;'>
-            <div style='background-color: #f9f9f9; padding: 20px; border-radius: 12px;
-                        border: 1px solid #ddd; text-align: left;'>
-                <h2 style='text-align: center; color: #2C3E50;'>
-                    👋 Welcome to <span style='color: #1F618D;'>Your Next Read</span>!
+            <div style='background-color: #f9f9f9; padding: 20px 30px; border-radius: 16px;
+                        border-left: 6px solid #1F618D; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                        max-width: 850px; width: 100%; text-align: left;'>
+                <h2 style='text-align: center; color: #2C3E50; margin-bottom: 1rem;'>
+                    👋 Welcome to <span style='color: #1F618D;'>Your Next Read</span>
                 </h2>
-                <p style='font-size: 16px; color: #34495E;'>
+                <p style='font-size: 17px; color: #555; text-align: center;
+                          line-height: 1.6; margin-bottom: 1.5rem;'>
                     Looking for your next favorite book? You're in the right place!<br>
-                    Just tell us what you've read, and we’ll do the rest –
-                    recommending personalized book selections you’re likely to love.
+                    Just tell us what you’ve read and we’ll do the rest – recommending
+                    personalized books you’re likely to love.
                 </p>
-                <h4 style='color: #2C3E50;'>🛠️ How to use the app:</h4>
-                <ol style='color: #566573; font-size: 15px;'>
+                <h4 style='color: #2C3E50; margin-bottom: 0.5rem;'>📘 How to get started</h4>
+                <ol style='color: #444; font-size: 15.5px; line-height: 1.8; padding-left: 1.2rem;'>
                     <li>Go to <strong>📚 My Books</strong> and rate a few books you've read.</li>
-                    <li>Hit the <strong>💾 Save books</strong> button to update your preferences.</li>
+                    <li>Click the
+                        <span style='border: 1px solid #D0D3D4; padding: 4px 10px;
+                                     border-radius: 6px; font-weight: 500; font-size: 14px;
+                                     margin: 0 4px;'>
+                            💾 Save books
+                        </span>
+                    button to update your preferences.</li>
                     <li>Return to <strong>🏠 Home</strong> to get your personalized recommendations.</li>
-                    <li>Explore more using the <strong>🔍 Search</strong> tab to search books by title or author.</li>
+                    <li>Find a book you like? Click the title to view more details.</li>
+                    <li>Use the <strong>🔍 Search</strong> page to explore more books.</li>
                 </ol>
             </div>
         </div>
@@ -51,7 +60,13 @@ def render_my_books_instructions():
                 <li>Use the dropdown to search for books by title or author.</li>
                 <li>Add books you've read to your list.</li>
                 <li>Use the sliders to rate each book from 0 to 10.</li>
-                <li>Don't forget to hit <strong>💾 Save books</strong> when you're done!</li>
+                <li>Don't forget to hit
+                        <span style='border: 1px solid #D0D3D4; padding: 4px 10px;
+                                     border-radius: 6px; font-weight: 500; font-size: 14px;
+                                     margin: 0 4px;'>
+                            💾 Save books
+                        </span>
+                    when you're done!</li>
             </ol>
             <p style="margin-top: 6px; margin-bottom: 6px; color: #34495E;">
                 ✨ The more books you rate, the better your recommendations will be!
