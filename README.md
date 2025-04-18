@@ -1,11 +1,13 @@
-[![Build and push Docker image](https://github.com/lu-julia/book-recommendation/actions/workflows/prod.yml/badge.svg)](https://github.com/lu-julia/book-recommendation/actions/workflows/prod.yml)
-[![Pylint](https://github.com/lu-julia/book-recommendation/actions/workflows/pylint.yml/badge.svg)](https://github.com/lu-julia/book-recommendation/actions/workflows/pylint.yml)
-
 # Book Recommendation App
+
+[![Build and push Docker image](https://github.com/lu-julia/book-recommender/actions/workflows/prod.yml/badge.svg)](https://github.com/lu-julia/book-recommender/actions/workflows/prod.yml)
+[![Pylint](https://github.com/lu-julia/book-recommender/actions/workflows/pylint.yml/badge.svg)](https://github.com/lu-julia/book-recommender/actions/workflows/pylint.yml)
+
+## Objective
 
 This project aims to build a book recommendation system that provides personalized book suggestions to users based on their reading preferences and ratings. The project includes an interactive web application that allows users to search for books, rate them, and receive recommendations.
 
-## Features
+## Application features
 
 
 ## Dataset
@@ -41,7 +43,8 @@ book_recommender/
 │   ├── app_utils/
 │   |   ├── functions.py 
 │   |   ├── logger.py             
-│   |   └── session.py                
+│   |   ├── session.py  
+│   |   └── ui_elements.py           
 │   ├── data/
 │   │   ├── load_data.py             
 │   │   └── preprocessing.py              
@@ -59,7 +62,7 @@ To run the app locally, follow these steps :
 
 1. Clone this repository 
 ```
-git clone https://github.com/lu-julia/book-recommendation.git
+git clone https://github.com/lu-julia/book-recommender.git
 ```
 
 2. Install the required dependencies 
