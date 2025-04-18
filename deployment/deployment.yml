@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: book-app
-        image: lujulia/mise-en-production:latest
+        image: lujulia/mise-en-production:v1.0.0
         ports:
         - containerPort: 8000
         env:
