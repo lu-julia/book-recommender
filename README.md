@@ -25,8 +25,7 @@ These files are stored on a S3 bucket in SSP Cloud.
 
 ```plaintext
 book_recommender/
-├── deployment/                             # Kubernetes configuration files        
-├── notebooks/                              # Notebooks for data exploration
+├── deployment/                             # Kubernetes configuration files
 ├── pages/                                  # Streamlit multi-page components
 │   ├── book_info.py                       
 │   ├── home.py                             
