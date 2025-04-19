@@ -50,6 +50,18 @@ book_recommender/
 └── requirements.txt                       
 ```
 
+## Deployment
+
+The application is deployed on a Kubernetes cluster hosted by SSP Cloud. The deployment is managed using ArgoCD. 
+A CI/CD pipeline ensures continuous integration and delivery of the application to the Kubernetes cluster.
+
+The deployed application can be accessed at the following URL : 
+
+<div align="center">
+
+https://your-next-read.lab.sspcloud.fr/
+
+<div align="left">
 
 ## Installation
 
@@ -113,25 +125,6 @@ docker run -p 8501:8501 --env-file .env lujulia/mise-en-production:v1.0.1
 ```
 
 The application will be accessible at `http://localhost:8501`.
-
-
-## Deployment on Kubernetes
-
-The application is deployed on a Kubernetes cluster hosted by SSP Cloud. The deployment is managed using ArgoCD. 
-A CI/CD pipeline ensures continuous integration and delivery of the application to the Kubernetes cluster :
-
-**Continuous integration (CI)** : Any change pushed to this repository triggers a GitHub Actions workflow. This workflow automatically builds the Docker image and pushes it to Docker Hub with a versioned tag.
-
-**Continuous deployment (CD)** : When the `deployment/deployment.yml` file is updated (e.g., to reference a new image version), ArgoCD automatically syncs the changes to the Kubernetes cluster.
-
-The deployed application can be accessed at the following URL : 
-
-<div align="center">
-
-https://your-next-read.lab.sspcloud.fr/
-
-<div align="left">
-
 
 
 ## Demo
