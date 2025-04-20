@@ -130,6 +130,16 @@ The application will be accessible at `http://localhost:8501`.
 
 ![app_demo_1](https://github.com/user-attachments/assets/194953bc-819d-4324-af25-fe37da852b27)
 
+## Future work
+
+Several enhancements could further improve the user experience and recommendation quality :
+
+* **Implement user authentification** : Enable user login so that individual reading histories and personal libraries can be saved and retrieved across sessions.
+* **Use a relational database for dynamic updates** : Integrate a SQL database (e.g., PostgreSQL or SQLite) to store user ratings and book metadata and enable real-time updates of the dataset.
+* **Add books to libraries from the Search page** : Allow users to add books to their personal collection directly from the search results.
+* **Integrate a richer dataset** : Use a more comprehensive dataset that includes book genres, summaries, and other metadata (e.g., language, page count, keywords) to enrich search results and improve recommendation diversity.
+* **Enhance the recommendation engine** : Improve the collaborative filtering model and explore hybrid approaches that combine popularity, content-based filtering (e.g., using book descriptions or genres), and user behavior for more accurate suggestions.
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
