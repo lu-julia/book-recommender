@@ -64,22 +64,11 @@ https://your-next-read.lab.sspcloud.fr/
 
 ## Installation
 
-### Environment Setup
-
-To access the S3 bucket, create an `.env` file with your [authentification keys](https://datalab.sspcloud.fr/account/storage). 
-The file should contain the following variables :
-```
-AWS_ACCESS_KEY_ID=your_access_key_id
-AWS_SECRET_ACCESS_KEY=your_secret_access_key
-AWS_SESSION_TOKEN=your_session_token
-```
-
 ### Running the app with Python
 
 #### Prerequisites
 
 * Python installed
-* An `.env` file with your S3 bucket credentials
 
 To run the application locally using Python, follow these steps :
 
@@ -94,14 +83,12 @@ cd book-recommender
 pip install -r requirements.txt 
 ```
 
-3. Add the `.env` file to the root directory of the project.
-
-4. Launch the app
+3. Launch the app
 ```
 streamlit run app.py
 ```
 
-5. Open your web browser and go to `http://localhost:8501` to access the app.
+4. Open your web browser and go to `http://localhost:8501` to access the app.
 
 
 ### Running the app with Docker
@@ -109,18 +96,17 @@ streamlit run app.py
 #### Prerequisites
 
 * Docker installed on your machine
-* An `.env` file in your working directory with your S3 bucket credentials
 
 Alternatively, the application can be run using an already built Docker image available on Docker Hub. To run the app, follow these steps :
 
 1. Pull the Docker image
 ```
-docker pull lujulia/mise-en-production:v1.0.1
+docker pull lujulia/mise-en-production:v1.0.2
 ```
 
 2. Run the Docker container
 ```
-docker run -p 8501:8501 --env-file .env lujulia/mise-en-production:v1.0.1
+docker run -p 8501:8501 lujulia/mise-en-production:v1.0.2
 ```
 
 The application will be accessible at `http://localhost:8501`.
