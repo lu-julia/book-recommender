@@ -2,11 +2,8 @@
 This module loads data from an object storage system (S3) and processes it into DataFrames.
 """
 
-import os
 import time
 
-import s3fs
-from dotenv import load_dotenv
 import pandas as pd
 
 from src.app_utils.logger import logger
@@ -17,26 +14,17 @@ from src.data.preprocessing import (
 )
 
 
-# Load environment variables from .env file
-load_dotenv()
-
-# Initialize S3 file system
-fs = s3fs.S3FileSystem(
-    client_kwargs={"endpoint_url": "https://minio.lab.sspcloud.fr"},
-    key=os.environ["AWS_ACCESS_KEY_ID"],
-    secret=os.environ["AWS_SECRET_ACCESS_KEY"],
-    token=os.environ["AWS_SESSION_TOKEN"],
-)
-
-
 def read_csv_from_s3(file_name: str, **kwargs) -> pd.DataFrame:
     """
     Reads a CSV file from an object storage system.
     """
     logger.info(f"Reading file from S3: {file_name}")
     try:
-        with fs.open(f"s3://julialu/diffusion/{file_name}", mode="rb") as file_in:
-            df = pd.read_csv(file_in, sep=",", **kwargs)
+        df = pd.read_csv(
+            f"https://minio.lab.sspcloud.fr/julialu/diffusion/{file_name}",
+            sep=",",
+            **kwargs,
+        )
         logger.success(f"Successfully read {file_name}")
         return df
     except Exception as e:
